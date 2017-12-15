@@ -63,7 +63,7 @@ export const actions = {
       }).then(res => {
         const user = { token, profile: res.data }
         dispatch(actions.save(user))
-        window.sessionStorage.setItem('key', token)
+        window.sessionStorage.setItem('key', token.access_token)
         cb(null, user)
       }).catch(cb)
     }
