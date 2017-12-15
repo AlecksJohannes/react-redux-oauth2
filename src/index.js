@@ -35,6 +35,7 @@ export const actions = {
         headers: { 'Authorization': `Bearer ${user.token.access_token}` }
       }).then(res => {
         dispatch(actions.reset())
+        window.sessionStorage.clear()
         cb(null, res)
       }).catch(e => {
         dispatch(actions.error(e))
@@ -42,14 +43,27 @@ export const actions = {
       })
     }
   },
+  auth () {
+    return (dispatch, getState) => {
+      const { config } = getState().oauth
+      return axios.get(`${config.url}/user`, {
+        headers: { 'Authorization': `${token.access_token}` }
+      }).then(res => {
+        const user = { token, profile: res.data }
+        dispatch(actions.save(user))
+        cb(null, user)
+      }).catch(cb)
+    }
+  },
   sync (token, cb = f => f) {
     return (dispatch, getState) => {
       const { config } = getState().oauth
-      return axios.get(`${config.url}${config.token}`, {
+      return axios.get(`https://api.github.com/user`, {
         headers: { 'Authorization': `Bearer ${token.access_token}` }
       }).then(res => {
         const user = { token, profile: res.data }
         dispatch(actions.save(user))
+        window.sessionStorage.setItem('key', token)
         cb(null, user)
       }).catch(cb)
     }
@@ -111,7 +125,7 @@ export function signout (settings) {
       }
       handleClick () {
         this.props.dispatch(actions.signout((e, res) => {
-          return e ? settings.failed(e) : settings.success(null, res)
+          return e ? settings.failed(e) : settings.success(res)
         }))
       }
       render () {
