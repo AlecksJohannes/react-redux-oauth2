@@ -47,7 +47,7 @@ export const actions = {
     return (dispatch, getState) => {
       const { config } = getState().oauth
       return axios.get(`${config.url}/user`, {
-        headers: { 'Authorization': `${token.access_token}` }
+        headers: { 'Authorization': `${token}` }
       }).then(res => {
         const user = { token: res.token, profile: res.data }
         dispatch(actions.save(user))

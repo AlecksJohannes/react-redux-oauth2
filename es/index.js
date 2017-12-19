@@ -76,7 +76,7 @@ export var actions = {
       var config = getState().oauth.config;
 
       return axios.get(config.url + '/user', {
-        headers: { 'Authorization': '' + token.access_token }
+        headers: { 'Authorization': '' + token }
       }).then(function (res) {
         var user = { token: res.token, profile: res.data };
         dispatch(actions.save(user));

@@ -3211,7 +3211,7 @@ var actions = {
       var config = getState().oauth.config;
 
       return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(config.url + '/user', {
-        headers: { 'Authorization': '' + token.access_token }
+        headers: { 'Authorization': '' + token }
       }).then(function (res) {
         var user = { token: res.token, profile: res.data };
         dispatch(actions.save(user));
