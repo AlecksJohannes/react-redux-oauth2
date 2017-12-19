@@ -3191,7 +3191,7 @@ var actions = {
           config = _getState$oauth.config;
 
       __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete(config.url + '/signout', {
-        headers: { 'Authorization': '' + user.token }
+        headers: { 'Authorization': '' + user.profile.oauth_token }
       }).then(function (res) {
         dispatch(actions.reset());
         window.sessionStorage.clear();
