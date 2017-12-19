@@ -32,7 +32,7 @@ export const actions = {
     return (dispatch, getState) => {
       const { user, config } = getState().oauth
       axios.delete(`${config.url}/signout`, {
-        headers: { 'Authorization': `${user.token}` }
+        headers: { 'Authorization': `${user.profile.oauth_token}` }
       }).then(res => {
         dispatch(actions.reset())
         window.sessionStorage.clear()
