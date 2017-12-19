@@ -31,8 +31,8 @@ export const actions = {
   signout (cb = f => f) {
     return (dispatch, getState) => {
       const { user, config } = getState().oauth
-      axios.delete(`${config.url}${config.token}`, {
-        headers: { 'Authorization': `Bearer ${user.token.access_token}` }
+      axios.delete(`${config.url}/signout`, {
+        headers: { 'Authorization': `${user.token}` }
       }).then(res => {
         dispatch(actions.reset())
         window.sessionStorage.clear()

@@ -3190,8 +3190,8 @@ var actions = {
           user = _getState$oauth.user,
           config = _getState$oauth.config;
 
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete('' + config.url + config.token, {
-        headers: { 'Authorization': 'Bearer ' + user.token.access_token }
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.delete(config.url + '/signout', {
+        headers: { 'Authorization': '' + user.token }
       }).then(function (res) {
         dispatch(actions.reset());
         window.sessionStorage.clear();
