@@ -43,13 +43,13 @@ export const actions = {
       })
     }
   },
-  auth () {
+  auth (token, cb = f => f) {
     return (dispatch, getState) => {
       const { config } = getState().oauth
       return axios.get(`${config.url}/user`, {
         headers: { 'Authorization': `${token.access_token}` }
       }).then(res => {
-        const user = { token, profile: res.data }
+        const user = { token: res.token, profile: res.data }
         dispatch(actions.save(user))
         cb(null, user)
       }).catch(cb)

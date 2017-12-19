@@ -3202,14 +3202,18 @@ var actions = {
       });
     };
   },
-  auth: function auth() {
+  auth: function auth(token) {
+    var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function (f) {
+      return f;
+    };
+
     return function (dispatch, getState) {
       var config = getState().oauth.config;
 
       return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get(config.url + '/user', {
         headers: { 'Authorization': '' + token.access_token }
       }).then(function (res) {
-        var user = { token: token, profile: res.data };
+        var user = { token: res.token, profile: res.data };
         dispatch(actions.save(user));
         cb(null, user);
       }).catch(cb);
@@ -3383,12 +3387,12 @@ function signin(settings) {
           dispatch(actions.cancel());
           settings.cancel();
         } else {
-          var _token = void 0;
+          var token = void 0;
           try {
-            _token = __WEBPACK_IMPORTED_MODULE_4_query_string___default.a.parse(popup.location.search.substr(1));
+            token = __WEBPACK_IMPORTED_MODULE_4_query_string___default.a.parse(popup.location.search.substr(1));
           } catch (e) {}
-          if (_token && _token.access_token) {
-            dispatch(actions.sync(_token, function (err, user) {
+          if (token && token.access_token) {
+            dispatch(actions.sync(token, function (err, user) {
               if (err) {
                 dispatch(actions.error(err));
                 settings.failed(err);
